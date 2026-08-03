@@ -1,0 +1,137 @@
+﻿{
+  "prompt_metadata": {
+    "app_name": "Contractor Miles - Automated IRS Mileage Tracker & Tax Deduction Planner",
+    "tagline": "Auto-detect business trips, swipe to categorize, and maximize tax deductions securely.",
+    "target_platform": "Android (Kotlin + Jetpack Compose)",
+    "language": "Kotlin",
+    "ui_framework": "Jetpack Compose (Material Design 3)",
+    "architecture_pattern": "MVVM + Clean Architecture + MVI for Sweep & Tracking States",
+    "build_system": "Gradle Kotlin DSL (Version Catalogs)",
+    "min_sdk": 26,
+    "target_sdk": 34,
+    "category": "Finance / Tax Utilities / Business Travel",
+    "monetization": "Hybrid: Free (Auto-detect up to 40 trips/month, standard CSV mileage exports, basic tracking + AdMob Banner/Interstitial Ads) | Premium Pro ($4.99/mo subscription or $24.99 lifetime purchase to unlock unlimited automatic trip tracking, reverse-geocoded address maps, high-fidelity dynamic savings charts, instant cloud backups, IRS-ready PDF audit reports, and an ad-free clean experience)"
+  },
+  "agent_instructions": {
+    "role": "You are a Principal Android System Architect and GIS (Geographic Information Systems) Engineer. Your task is to design 'Contractor Miles', an optimized, battery-efficient, offline-first application that automatically intercepts driving paths in the background, calculates precise road mileage, and empowers independent contractors to classify trips using a high-fidelity single-swipe card interface.",
+    "design_philosophy": "Frictionless financial capture. Independent contractors lose thousands in tax write-offs due to logging exhaustion. The tracking engine must run invisibly with negligible battery drain. The user interface must be modern, highly tactile, utilizing smooth card-swiping mechanics (swipe right for Business, swipe left for Personal) and dynamic physical spring animations.",
+    "code_standards": [
+      "Strict separation of layers using Clean Architecture guidelines: Presentation (Compose UI, ViewModels, MVI Intents), Domain (Mileage UseCases, GPS Math Rules, Tax Rate Math), and Data (Room DB with automated migrations, DataStore, FusedLocationProvider, Geocoding API).",
+      "Dynamic MVI state tracking utilizing Kotlin StateFlows to keep interactive swipe cards, monthly mileage progress loops, and active GPS triggers strictly synchronized across features.",
+      "Highly optimized background lifecycle handling utilizing FusedLocationProviderClient and ActivityRecognitionClient, prioritizing battery-saving location sampling policies (cell-tower/Wi-Fi transitions) until high-speed motion triggers active GPS polling.",
+      "Strict storage offline-first standards leveraging Room database to track and persist raw coordinates, generated addresses, odometer snapshots, and compliance metadata."
+    ]
+  },
+  "product_specification": {
+    "core_mechanics": {
+      "low_battery_auto_tracking_engine": {
+        "description": "High-fidelity, ultra-low-overhead automated background drive capturing pipeline.",
+        "activity_recognition": "Listen to Android's ActivityRecognitionClient transitions. Pinpoint the shift from stationary/walking to the 'IN_VEHICLE' state.",
+        "smart_gps_polling": "Trigger FusedLocationProvider API dynamically when vehicular speed exceeds 15mph. Employ adaptive distance-based path updates (every 200m or 30-degree heading change) rather than fixed temporal timers to preserve battery. Auto-close the tracking session when the device stays stationary for over 5 minutes."
+      },
+      "tinder_style_swipe_classification": {
+        "description": "An interactive card-stack swipe component allowing rapid sorting of unclassified drives.",
+        "swipe_physics": "Implement a custom pointer-input swipe deck in Jetpack Compose using spring physics. Swiping right categorizes the trip as 'Business' (dynamically calculating deduction at the official 2026 IRS rate of 72.5 cents per mile). Swiping left categorizes the trip as 'Personal' / discard.",
+        "quick_annotations": "Tapping a swipe-card expands a micro-form to attach a pre-configured business purpose (e.g., 'Client Meeting', 'Supply Run', 'Site Visit') and select active vehicles from a Room database table."
+      },
+      "irs_deduction_and_tax_calculator": {
+        "description": "Calculates real-time tax write-off metrics and tracks business-to-personal splits.",
+        "tax_rules": "Standardize on 2026 IRS Standard Mileage Guidelines: Business = $0.725/mile, Medical/Moving = $0.205/mile, Charitable = $0.14/mile. Support retroactive audits by allowing users to toggle tax years (2025 rate: $0.70/mile).",
+        "custom_vehicles": "Support registering multiple vehicles with active starting/ending odometer trackers, tracking business-use percentages (essential for Form 4562 compliance)."
+      },
+      "irs_audit_ready_reports_exporter": {
+        "description": "Build high-resolution data sheets compiling every trip into standard IRS audit-proof logs.",
+        "requirements": "Generated exports must match Form 463 Schedule C specifications, detailing: Date, Start Time, End Time, Purpose, Start Location, Destination, Total Odometer, Business Miles, Personal Miles, and calculated Deductible Dollar value.",
+        "export_formats": "Asynchronous generation of high-fidelity PDF documents with custom header summaries and structured CSV files, safely exported using Scoped Storage and the FileProvider framework."
+      },
+      "admob_monetization_layer": {
+        "banner_ads": "Collapsible smart banners pinned at the bottom of the Unclassified Trips Deck and the main Analytics screen (disabled for Pro-tier).",
+        "interstitial_ads": "Shown after swiping / clearing a continuous stack of 10 trips (restricted with a 15-minute safety cap to avoid disrupting financial workflows).",
+        "rewarded_ads": "Watch an ad to unlock high-fidelity PDF report exports or automatic reverse-geocoding for the next 24 hours.",
+        "consent_platform": "Integrate the Google User Messaging Platform (UMP) SDK to handle fully compliant GDPR and ePrivacy consent loops before initializing the AdMob SDK."
+      }
+    }
+  },
+  "technical_specification": {
+    "key_permissions": [
+      "android.permission.ACCESS_FINE_LOCATION (Essential for calculating exact route paths)",
+      "android.permission.ACCESS_COARSE_LOCATION (Fallback coordinate mapping)",
+      "android.permission.ACCESS_BACKGROUND_LOCATION (Crucial to intercept automatic drive starts under Android 13/14 background rules)",
+      "com.google.android.gms.permission.ACTIVITY_RECOGNITION (Required to safely trigger vehicular transit detectors)",
+      "android.permission.FOREGROUND_SERVICE_LOCATION (Required on Android 14+ to keep the active tracking session running continuously)",
+      "android.permission.POST_NOTIFICATIONS (To prompt contractors immediately after a drive is processed)",
+      "android.permission.INTERNET (Required for Google Maps APIs, geocoding coordinates, and AdMob services)"
+    ],
+    "module_architecture": {
+      "app": "Application initialization, Hilt module graphs, dynamic provider bindings, and safe NavHost controllers.",
+      "core_ui": "Premium financial M3 tokens (Deep Spruce Pine, Emerald, and Warm Gold), custom spring animation curves, swipe-deck layout wrappers, and chart coordinates.",
+      "feature_tracker": "Foreground tracking services, FusedLocation wrappers, ActivityRecognition bounds receivers, and SQLite route buffers.",
+      "feature_swipe": "Tinder-swipe card decks, motion event pointer trackers, active vehicle selector sheets, and quick-purpose modifiers.",
+      "feature_analytics": "High-fidelity Compose Canvas charts (splines, stacked bars showing business vs personal splits), real-time tax deduction counters, and mileage progression meters.",
+      "feature_pro": "Google Play Billing 6.x wrappers, dynamic premium tier widgets, paywall subscription pages, and cloud sync APIs."
+    },
+    "state_management_details": {
+      "mileage_state_machine": {
+        "state_model": "data class MileageState(val unclassifiedTrips: List, val classifiedTrips: List, val activeTrackingTrip: Trip?, val currentEstimatedSavings: Double, val activeVehicle: Vehicle?, val isPro: Boolean, val uiMode: TrackerUiMode)",
+        "ui_mode": "enum class TrackerUiMode { TRIP_SWEEPER_DECK, CLASSIFIED_HISTORY, TAX_DASHBOARD, VEHICLE_SETUP, PREMIUM_PAYWALL }"
+      }
+    },
+    "core_dependencies": {
+      "jetpack_compose": "androidx.compose.ui:ui:1.6.x (including foundation, material3, and dynamic graphic animations)",
+      "play_services_location": "com.google.android.gms:play-services-location:21.2.x (For Fused Location tracking)",
+      "play_services_activity": "com.google.android.gms:play-services-activity-recognition:22.0.x (For vehicle movement tracking)",
+      "database_orm": "androidx.room:room-runtime:2.6.x & room-compiler (supporting Coroutines/Flow queries and auto-migrations)",
+      "dependency_injection": "com.google.dagger:hilt-android:2.51 & hilt-navigation-compose",
+      "data_caching": "androidx.datastore:datastore-preferences:1.0.x (For user presets and vehicle tracking states)",
+      "background_runtime": "androidx.work:work-runtime-ktx:2.9.x",
+      "billing": "com.android.billingclient:billing-ktx:6.2.0 (Google Play Billing Engine)",
+      "monetization": "com.google.android.gms:play-services-ads:23.x.x (AdMob SDK)",
+      "consent_sdk": "com.google.android.ump:user-messaging-platform:2.2.x (User Consent Collection)"
+    },
+    "ui_ux_design": {
+      "theme_color_palette": {
+        "primary": "#0F52BA (Sleek Royal Blue - representing business stability)",
+        "secondary": "#10B981 (Emerald green - representing money and tax savings)",
+        "background": "#F8FAFC (Calming Slate/Off-white - designed for clear corporate tracking)",
+        "surface": "#FFFFFF (Pure White)",
+        "on_background": "#0F172A (Deep Slate)",
+        "accent": "#F59E0B (Vibrant Gold - representing write-off savings highlights)"
+      },
+      "design_notes": "Sleek Dark Mode is default ('background': '#0B0F19', 'surface': '#151F32', 'on_surface': '#ECEFF1'). Provide gentle HapticFeedback pulses when user successfully swipes a card or saves a trip. Cards must have massive touch surfaces to enable single-handed categorization during business travel."
+    }
+  },
+  "execution_roadmap": [
+    {
+      "phase_1": "Architecture Scaffolding & Core Mileage Database Schema",
+      "description": "Establish multi-module structure utilizing clean architecture guidelines. Scaffold Hilt containers, set up Kotlin Version Catalogs, prepare Type-Safe Compose Navigation routes, and initialize Room schema structures for trips, vehicles, geofenced nodes, and local data."
+    },
+    {
+      "phase_2": "Low-Battery Background Location & Activity Recognition Pipeline",
+      "description": "Configure permissions for ACCESS_BACKGROUND_LOCATION and ACTIVITY_RECOGNITION. Bind the system ActivityRecognitionClient to capture the shift to vehicular travel. Hook into the FusedLocationProviderClient with distance-based adaptive sampling filters."
+    },
+    {
+      "phase_3": "High-Fidelity Tinder-Style Swipe Deck UI Component",
+      "description": "Construct the swipe deck visualizer using Jetpack Compose PointerInput modifiers. Build spring-bound physical calculations representing swipe velocities, and attach left/right threshold listeners to instantly update Room records."
+    },
+    {
+      "phase_4": "IRS Rules, Deduction Calculations & Vehicle Settings Engine",
+      "description": "Build tax deduction calculators mapping mileage inputs to dynamic annual parameters (e.g., $0.725/mile for 2026). Establish vehicle management tables tracking odometer numbers, and build calculations mapping business percentages."
+    },
+    {
+      "phase_5": "Custom Canvas Financial Charting & Metrics Dashboard",
+      "description": "Build high-performance, clean-code mathematical coordinate drawing utilities on standard Jetpack Compose Canvas. Render dynamic savings splines, stacked bar segments showing business-to-personal trip splits, and cumulative saving progress arcs."
+    },
+    {
+      "phase_6": "AdMob SDK, GDPR Consent Framework & UMP Interceptor",
+      "description": "Initialize the Google User Messaging Platform (UMP) SDK. Construct modular Compose container overlays to request location/privacy consent loops before initializing the AdMob SDK. Inject responsive Anchor adaptive Banners and custom-capped Interstitial triggers."
+    },
+    {
+      "phase_7": "Google Play Billing 6.x Premium Paywall Integration",
+      "description": "Build the Google Play Billing subscription repository. Construct a modern, visually striking Pro Paywall featuring dynamic cards, comparison grids, and spring transition animations that bypasses AdMob overlays upon transaction validation."
+    },
+    {
+      "phase_8": "Audit-Ready Exporters, Performance Tuning & Build Release",
+      "description": "Measure background service overhead. Develop asynchronous background workers using WorkManager to format and write IRS audit-ready PDFs/CSVs. Profile heap allocations during Canvas charting and export activities to secure final release signature builds."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿App Name: Contractor Miles
+Version: 1.0.0
+Platform: Android / iOS
+Category: Tax / Mileage Tracking
+Target Market: Global
+Price Model: Free 40 trips/month + $4.99/month Pro
+
+Description:
+Uses background location to auto-detect business trips and prompts contractors with a single-swipe interface to log or discard each trip for IRS-compliant mileage deductions.
+
+Key Features:
+- Background trip detection using geofencing and motion sensors
+- One-swipe confirm business trip or discard personal trip
+- IRS Standard Mileage Rate auto-applied (2025: $0.70/mile)
+- Manual trip entry as fallback
+- Purpose categories: Client Visit, Supply Run, Office, Medical, Charity
+- Trip history with map preview of each route
+- Monthly/annual deduction summary report
+- PDF report export for tax filing or accountant
+- Round-trip calculator for known regular routes
+- Vehicle profile: enter car and switch between multiple vehicles
+
+Target Audience: Freelancers, real estate agents, consultants, home service contractors
+Competitors: MileIQ, Everlance, TripLog
+Unique Value: One-swipe confirm UX is the fastest mileage logging experience available
